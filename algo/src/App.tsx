@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { testBubbleSort } from './algorithms/bubbleSort';
+import { testBinarySearch } from './algorithms/binarySearch';
+
+function TestRunner({testName, test}: {testName: string, test: () => string | null}) {
+  const [result, setResult] = useState("not executed")
+
+  function runTest() {
+    const error = test()
+    setResult(error ? error : "Success")
+  }
+
+  return (
+    <div className="Test-runner">
+      <button onClick={runTest}>{testName}</button>
+      <span>{result}</span>
+    </div>
+  )
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TestRunner testName='Bubble Sort' test={testBubbleSort}/>
+      <TestRunner testName='Binary Search' test={testBinarySearch}/>
     </div>
   );
 }
